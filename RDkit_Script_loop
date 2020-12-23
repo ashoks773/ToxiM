@@ -1,0 +1,19 @@
+# for calculating descriptors for multiple moelcules, simply use loop
+'''
+source activate my-rdkit-env
+python
+from rdkit import Chem
+from rdkit.Chem import AllChem
+from rdkit.Chem import Descriptors
+from rdkit.ML.Descriptors import MoleculeDescriptors
+nms=[x[0] for x in Descriptors._descList]
+calc = MoleculeDescriptors.MolecularDescriptorCalculator(nms)
+suppl = Chem.SDMolSupplier('All.sdf')
+des = []
+for m in suppl:
+   if m is None: continue 
+   des.append(calc.CalcDescriptors(m))
+   f = open('b.txt', "a")
+   X = calc.CalcDescriptors(m)
+   f.write( str(X) + "\n"  )
+   f.close ()
